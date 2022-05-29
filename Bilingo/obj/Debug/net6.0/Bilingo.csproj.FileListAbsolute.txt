@@ -125,3 +125,6 @@ C:\Users\RayanS\Documents\Projects\Bilingo-backend\Bilingo\obj\Debug\net6.0\Bili
 C:\Users\RayanS\Documents\Projects\Bilingo-backend\Bilingo\obj\Debug\net6.0\Bilingo.genruntimeconfig.cache
 C:\Users\RayanS\Documents\Projects\Bilingo-backend\Bilingo\obj\Debug\net6.0\ref\Bilingo.dll
 C:\Users\RayanS\Documents\Projects\Bilingo-backend\Bilingo\bin\Debug\net6.0\RestSharp.dll
+C:\Users\RayanS\Documents\Projects\Bilingo-backend\Bilingo\bin\Debug\net6.0\System.Net.Http.Extensions.dll
+C:\Users\RayanS\Documents\Projects\Bilingo-backend\Bilingo\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+C:\Users\RayanS\Documents\Projects\Bilingo-backend\Bilingo\bin\Debug\net6.0\System.Net.Http.Primitives.dll

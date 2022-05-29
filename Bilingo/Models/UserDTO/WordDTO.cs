@@ -1,6 +1,6 @@
 ﻿namespace Bilingo.Models.UserDTO
 {
-    public class NewWordDTO
+    public class WordDTO
     {
         public int Id { get; set; }
 
