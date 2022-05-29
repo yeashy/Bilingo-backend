@@ -7,6 +7,7 @@ using Bilingo.Models;
 using Bilingo.Models.UserDTO;
 using Bilingo.Data;
 using Bilingo;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bilingo.Services
 {
@@ -14,6 +15,7 @@ namespace Bilingo.Services
     {
         User? LoginUser(UserLoginDTO model);
         object GetToken(User user);
+        Task<int?> GetIdByUsername(string username);
     }
 
 
@@ -84,6 +86,13 @@ namespace Bilingo.Services
                 sb.AppendFormat("{0:x2}", b);
             }
             return sb.ToString();
+        }
+
+        public async Task<int?> GetIdByUsername(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == username);
+            if (user == null) return null;
+            return user.Id;
         }
     }
 }

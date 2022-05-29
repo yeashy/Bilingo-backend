@@ -11,13 +11,11 @@ namespace Bilingo.Controllers
     {
         private readonly ILoginService _loginService;
         private readonly IRegisterService _registerService;
-        // private readonly IDeactivateTokenService _deactivateTokenService;
 
-        public AuthController(ILoginService loginService, IRegisterService register/*, IDeactivateTokenService deactivateToken*/)
+        public AuthController(ILoginService loginService, IRegisterService register)
         {
             _loginService = loginService;
             _registerService = register;
-            // _deactivateTokenService = deactivateToken;
         }
 
 

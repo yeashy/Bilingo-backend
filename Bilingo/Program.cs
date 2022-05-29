@@ -22,7 +22,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 // connecting new service
 builder.Services.AddScoped<IRegisterService, RegisterService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
-
+builder.Services.AddScoped<IWordsService, WordsService>();
 // AddScoped - new service object is created every request (no common memory between requests)
 // AddTransient - new service object is created with every method invoking 
 // AddSingleton - new service object creates and stays alive until application dies (common bemory between requests)
