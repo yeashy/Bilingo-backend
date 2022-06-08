@@ -12,4 +12,9 @@
 
         public List<Example> Examples { get; set; }
     }
+
+    public class WordRepetitionDTO : WordDTO
+    {
+        public int Stage { get; set; }
+    }
 }

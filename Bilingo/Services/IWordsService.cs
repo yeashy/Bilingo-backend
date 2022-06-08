@@ -77,19 +77,28 @@ namespace Bilingo.Services
 
         public async Task<WordDTO> GetWordToRepeat(int userId)
         {
-            var words = _context.UserWords
+            var userWords = _context.UserWords
                 .Where(x => x.UserId == userId && x.WordStatus != (int)WordStatus.CompletelyLearnt && x.WordStatus != (int)WordStatus.AlreadyKnown)
                 .Include(x => x.Word)
-                .Select(x => x.Word)
                 .ToList();
-            if (words.Count == 0) throw new Exception("No words to repeat. Suggest user to learn new words");
+            if (userWords.Count == 0) throw new Exception("No words to repeat. Suggest user to learn new words");
 
-            var randIndex = new Random().Next(words.Count);
-            var word = words[randIndex];
-            return await GetWordDTO(word);
+            var randIndex = new Random().Next(userWords.Count);
+            var userWord = userWords[randIndex];
+            var wordDTO = await GetWordDTO(userWord.Word);
+            var wordRepetitionDTO = new WordRepetitionDTO
+            {
+                Id = wordDTO.Id,
+                Word = wordDTO.Word,
+                Level = wordDTO.Level,
+                Translations = wordDTO.Translations,
+                Examples = wordDTO.Examples,
+                Stage = userWord.WordStatus
+            };
+            return wordRepetitionDTO;
         }
 
-        private static async Task<WordDTO> GetWordDTO(Word word)
+        private static async Task<WordDTO> GetWordDTO(Word word, bool isRepetition = false)
         {
             var service = new ReversoService();
             TranslatedResponse result = await service.TranslateWord(new TranslateWordRequest(from: Language.En, to: Language.Ru)
