@@ -93,6 +93,7 @@ namespace Bilingo.Services
             {
                 Id = wordDTO.Id,
                 Word = wordDTO.Word,
+                Phonetic = wordDTO.Phonetic,
                 Level = wordDTO.Level,
                 Translations = wordDTO.Translations,
                 Examples = wordDTO.Examples,
@@ -102,7 +103,7 @@ namespace Bilingo.Services
             return wordRepetitionDTO;
         }
 
-        private async Task<WordDTO> GetWordDTO(Word word, bool isRepetition = false)
+        private async Task<WordDTO> GetWordDTO(Word word)
         {
             var service = new ReversoService();
             TranslatedResponse result = await service.TranslateWord(new TranslateWordRequest(from: Language.En, to: Language.Ru)
@@ -135,6 +136,7 @@ namespace Bilingo.Services
             {
                 Id = word.Id,
                 Word = word.Value,
+                Phonetic = info?.Phonetic,
                 Level = word.Level,
                 Translations = tranlations,
                 Examples = examples,

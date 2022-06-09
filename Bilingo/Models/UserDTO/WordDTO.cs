@@ -8,6 +8,8 @@
 
         public string Level { get; set; }
 
+        public string? Phonetic { get; set; }
+
         public List<string> Translations { get; set; }
 
         public List<Example> Examples { get; set; }

@@ -5,6 +5,7 @@ namespace Bilingo.Models.UserDTO
     public class DictionaryApiWordDTO
     {
         [JsonPropertyName("word")] public string WordName { get; set; }
+        [JsonPropertyName("phonetic")] public string Phonetic { get; set; }
         [JsonPropertyName("meanings")] public IList<DictionaryApiMeaning> Meanings { get; set; }
     }
 
