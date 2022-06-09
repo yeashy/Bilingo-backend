@@ -21,8 +21,8 @@ namespace Bilingo.Models.UserDTO
 
         [JsonPropertyName("example")] public string Example { get; set; }
 
-        [JsonPropertyName("synonyms")] public IList<string?>? Synonyms { get; set; }
+        [JsonPropertyName("synonyms")] public IList<string> Synonyms { get; set; }
 
-        [JsonPropertyName("antonyms")] public IList<string?>? Antonyms { get; set; }
+        [JsonPropertyName("antonyms")] public IList<string> Antonyms { get; set; }
     }
 }

@@ -11,6 +11,8 @@
         public List<string> Translations { get; set; }
 
         public List<Example> Examples { get; set; }
+
+        public List<string> PartsOfSpeech { get; set; }
     }
 
     public class WordRepetitionDTO : WordDTO

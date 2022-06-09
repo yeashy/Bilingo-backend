@@ -72,6 +72,7 @@ namespace Bilingo.Services
 
             var randIndex = new Random().Next(words.Count);
             var word = words[randIndex];
+
             return await GetWordDTO(word);
         }
 
@@ -81,6 +82,8 @@ namespace Bilingo.Services
                 .Where(x => x.UserId == userId && x.WordStatus != (int)WordStatus.CompletelyLearnt && x.WordStatus != (int)WordStatus.AlreadyKnown)
                 .Include(x => x.Word)
                 .ToList();
+            
+            
             if (userWords.Count == 0) throw new Exception("No words to repeat. Suggest user to learn new words");
 
             var randIndex = new Random().Next(userWords.Count);
@@ -93,12 +96,13 @@ namespace Bilingo.Services
                 Level = wordDTO.Level,
                 Translations = wordDTO.Translations,
                 Examples = wordDTO.Examples,
-                Stage = userWord.WordStatus
+                Stage = userWord.WordStatus,
+                PartsOfSpeech = wordDTO.PartsOfSpeech
             };
             return wordRepetitionDTO;
         }
 
-        private static async Task<WordDTO> GetWordDTO(Word word, bool isRepetition = false)
+        private async Task<WordDTO> GetWordDTO(Word word, bool isRepetition = false)
         {
             var service = new ReversoService();
             TranslatedResponse result = await service.TranslateWord(new TranslateWordRequest(from: Language.En, to: Language.Ru)
@@ -123,13 +127,18 @@ namespace Bilingo.Services
                     }
                 }
             }
+
+            var info = await GetInfoFromDictionaryAPI(word);
+            var partsOfSpeech = info?.Meanings.Select(x => x.PartOfSpeech).ToList();
+
             return new WordDTO
             {
                 Id = word.Id,
                 Word = word.Value,
                 Level = word.Level,
                 Translations = tranlations,
-                Examples = examples
+                Examples = examples,
+                PartsOfSpeech = partsOfSpeech ?? new List<string>()
             };
         }
 
