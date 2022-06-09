@@ -14,6 +14,10 @@ namespace Bilingo.Models.UserDTO
         [JsonPropertyName("partOfSpeech")] public string PartOfSpeech { get; set; }
 
         [JsonPropertyName("definitions")] public IList<DictionaryApiDefinition> Definitions { get; set; }
+
+        [JsonPropertyName("synonyms")] public IList<string> Synonyms { get; set; }
+
+        [JsonPropertyName("antonyms")] public IList<string> Antonyms { get; set; }
     }
 
     public class DictionaryApiDefinition
@@ -21,9 +25,5 @@ namespace Bilingo.Models.UserDTO
         [JsonPropertyName("definition")] public string Definition { get; set; }
 
         [JsonPropertyName("example")] public string Example { get; set; }
-
-        [JsonPropertyName("synonyms")] public IList<string> Synonyms { get; set; }
-
-        [JsonPropertyName("antonyms")] public IList<string> Antonyms { get; set; }
     }
 }

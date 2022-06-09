@@ -23,4 +23,13 @@
 
         public int CorrectAnswer { get; set; }
     }
+
+    public class ExerciseType4DTO : ExerciseDTO
+    {
+        public string SynOrAnt { get; set; }
+
+        public List<string> Options { get; set; }
+
+        public int CorrectAnswer { set; get; }
+    }
 }

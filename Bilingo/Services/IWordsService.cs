@@ -173,14 +173,22 @@ namespace Bilingo.Services
 
         public async Task<ExerciseDTO> GetRandomExercise(int wordId)
         {
-            var rand = new Random().Next(3);
-            return rand switch
+            var rand = new Random().Next(4);
+            switch (rand)
             {
-                0 => await GenerateTask1(wordId),
-                1 => await GenerateTask2(wordId),
-                2 => await GenerateTask3(wordId),
-                _ => await GenerateTask1(wordId),
-            };
+                case 0:
+                    return await GenerateTask1(wordId);
+                case 1:
+                    return await GenerateTask2(wordId);
+                case 2:
+                    return await GenerateTask3(wordId);
+                case 3:
+                    var res = await GenerateTask4(wordId);
+                    if (res == null) return await GenerateTask1(wordId);
+                    return res;
+                default:
+                    return await GenerateTask1(wordId);
+            }
         }
 
         private async Task<ExerciseType1DTO> GenerateTask1(int wordId)
@@ -250,6 +258,61 @@ namespace Bilingo.Services
                 Meanings = meanings,
                 CorrectAnswer = meanings.IndexOf(correctMeaning)
             };
+        }
+
+        private async Task<ExerciseType4DTO?> GenerateTask4(int wordId)
+        {
+            var word = await _context.Words.FirstOrDefaultAsync(x => x.Id == wordId);
+            if (word == null) throw new Exception("Word does not exist");
+
+            var info = await GetInfoFromDictionaryAPI(word);
+            if (info == null) return null;
+
+            var syns = new List<string>();
+            var ants = new List<string>();
+
+            foreach (var meaning in info.Meanings)
+            {
+                syns.AddRange(meaning.Synonyms);
+                ants.AddRange(meaning.Antonyms);
+            }
+
+            string? correctAnswer = null;
+            string sinOrAnt = "";
+
+            if (ants.Count > 0)
+            {
+                correctAnswer = ants[0];
+                sinOrAnt = "ant";
+            }
+            else if (syns.Count > 0)
+            {
+                correctAnswer = syns[0];
+                sinOrAnt = "sin";
+            }
+
+            if (correctAnswer == null) return null; 
+
+            var options = new List<string>();
+            var rnd = new Random();
+            options.Add(correctAnswer);
+            for (int i = 0; i < 3; i++) options.Add(GetRandomWord());
+            options = options.OrderBy(a => rnd.Next()).ToList();
+
+            return new ExerciseType4DTO
+            {
+                Type = "type4",
+                SynOrAnt = sinOrAnt,
+                Options = options,
+                CorrectAnswer = options.IndexOf(correctAnswer)
+            };
+        }
+
+        private string GetRandomWord()
+        {
+            var words = _context.Words.ToList();
+            var randIndex = new Random().Next(words.Count);
+            return words[randIndex].Value;
         }
 
         private async Task<string> GetRandomSentence(Word word)
