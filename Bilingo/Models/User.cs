@@ -12,6 +12,8 @@
 
         public string LastName { get; set; }
 
+        public string Gender { get; set; }
+
         public int Age { get; set; }
 
         public int Role { get; set; } = Convert.ToInt32(Models.Role.User);
