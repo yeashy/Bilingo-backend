@@ -112,7 +112,8 @@ namespace Bilingo.Controllers
             string username = usernameClaim.Substring(usernameClaim.IndexOf(" ") + 1);
             try
             {
-                
+                await _userService.ChangeAvatar(username, file);
+                return Ok(new { message = "OK" });
             }
             catch (Exception ex)
             {

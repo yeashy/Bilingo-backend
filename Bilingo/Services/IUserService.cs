@@ -10,6 +10,7 @@ namespace Bilingo.Services
         Task EditUser(string username, UserEditDTO model);
         Task<StatisticsDTO> GetStatistics(string username);
         Task<UserGetInfoDTO> GetUserInfo(string username);
+        Task ChangeAvatar(string username, IFormFile file);
     }
 
     public class UserService : IUserService
@@ -82,5 +83,24 @@ namespace Bilingo.Services
             };
         }
 
+        public async Task ChangeAvatar(string username, IFormFile file)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == username);
+            if (user == null) throw new Exception("User wasn't found");
+
+            Console.WriteLine(file.FileName);
+            string path = GeneratePath(user.Id, file.FileName);
+            using var fileStream = new FileStream(_appEnvironment.ContentRootPath + path, FileMode.Create);
+            await file.CopyToAsync(fileStream);
+
+            user.PathToAvatar = path;
+            await _context.SaveChangesAsync();  
+        }
+
+        private static string GeneratePath(int id, string extension)
+        {
+            string timeStamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+            return $"Files\\{timeStamp}_{new Random().Next(0, 100000)}_{id}{extension}";
+        }
     }
 }
