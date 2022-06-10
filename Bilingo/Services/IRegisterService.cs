@@ -2,7 +2,9 @@
 using Bilingo.Models;
 using Bilingo.Models.UserDTO;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
@@ -24,13 +26,17 @@ namespace Bilingo.Services
 
         public async Task<object> RegistrateUser(UserRegisterDTO model)
         {
+            var genderName = GetEnumDisplayAttributeByInt(model.Gender);
+            if (genderName == null) throw new Exception("Incorrect gender value");
+
             await _context.Users.AddAsync(new User
             {
                 Email = model.Email,
                 Password = EncodePassword(model.Password),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Age = model.Age
+                Age = model.Age,
+                Gender = genderName
             });
             await _context.SaveChangesAsync();
 
@@ -88,6 +94,12 @@ namespace Bilingo.Services
                 sb.AppendFormat("{0:x2}", b);
             }
             return sb.ToString();
+        }
+
+        private static string? GetEnumDisplayAttributeByInt(int id)
+        {
+            var enumValue = (Gender)id;
+            return enumValue.GetType().GetMember(enumValue.ToString()).First().GetCustomAttribute<DisplayAttribute>()?.GetName();
         }
     }
 }
