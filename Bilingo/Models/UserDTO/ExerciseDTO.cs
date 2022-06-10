@@ -36,4 +36,11 @@
 
         public int CorrectAnswer { set; get; }
     }
+
+    public class ExerciseType5DTO : ExerciseDTO
+    {
+        public List<string> Phonetics { get; set; }
+
+        public int CorrectAnswer { set; get; }
+    }
 }

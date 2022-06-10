@@ -173,7 +173,7 @@ namespace Bilingo.Services
 
         public async Task<ExerciseDTO> GetRandomExercise(int wordId)
         {
-            var rand = new Random().Next(4);
+            var rand = new Random().Next(5);
             switch (rand)
             {
                 case 0:
@@ -186,6 +186,8 @@ namespace Bilingo.Services
                     var res = await GenerateTask4(wordId);
                     if (res == null) return await GenerateTask1(wordId);
                     return res;
+                case 4:
+                    return await GenerateTask5(wordId);
                 default:
                     return await GenerateTask1(wordId);
             }
@@ -311,6 +313,43 @@ namespace Bilingo.Services
                 SynOrAnt = sinOrAnt,
                 Options = options,
                 CorrectAnswer = options.IndexOf(correctAnswer),
+                Word = word.Value,
+                WordId = wordId
+            };
+        }
+
+        private async Task<ExerciseType5DTO> GenerateTask5(int wordId)
+        {
+            var word = await _context.Words.FirstOrDefaultAsync(x => x.Id == wordId);
+            if (word == null) throw new Exception("Word does not exist");
+
+            var phonetics = new List<string>();
+            var rnd = new Random();
+
+            var info = await GetInfoFromDictionaryAPI(word);
+            if (info == null) throw new Exception("Phonetic wasn't found");
+            var correctPhonetic = info.Phonetic;
+            phonetics.Add(correctPhonetic);
+
+            var words = _context.Words.Where(x => x.Value.Length <= word.Value.Length * 2 && x.Value.Length >= word.Value.Length / 2).ToList();
+            var size = words.Count;
+            for (int i = 0; i < 3; i++)
+            {
+                var anotherWord = words[rnd.Next(size)];
+                var anotherWordInfo = await GetInfoFromDictionaryAPI(anotherWord);
+                if (anotherWordInfo == null)
+                {
+                    i -= 1;
+                }
+                else phonetics.Add(anotherWordInfo.Phonetic);
+            }
+
+            phonetics = phonetics.OrderBy(a => rnd.Next()).ToList();
+            return new ExerciseType5DTO
+            {
+                Type = "Type5",
+                Phonetics = phonetics,
+                CorrectAnswer = phonetics.IndexOf(correctPhonetic),
                 Word = word.Value,
                 WordId = wordId
             };
