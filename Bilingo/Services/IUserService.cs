@@ -40,6 +40,20 @@ namespace Bilingo.Services
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<UserGetInfoDTO> GetUserInfo(string username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == username);
+            if (user == null) throw new Exception("User wasn't found");
+
+            return new UserGetInfoDTO
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Age = user.Age
+            };
+        }
         
         public async Task<StatisticsDTO> GetStatistics(string username)
         {
