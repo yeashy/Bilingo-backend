@@ -124,5 +124,17 @@ namespace Bilingo.Controllers
                 return StatusCode(500, response);
             }
         }
+
+        [HttpGet]
+        [Authorize]
+        [Route("getAvatar")]
+        public async Task<PhysicalFileResult> GetAvatar()
+        {
+            string usernameClaim = User.Claims.ToList()[0].ToString();
+            string username = usernameClaim.Substring(usernameClaim.IndexOf(" ") + 1);
+
+            var avatarPath = await _userService.GetAvatarPath(username);        
+            return PhysicalFile(avatarPath, "image/jpeg");
+        }
     }
 }
