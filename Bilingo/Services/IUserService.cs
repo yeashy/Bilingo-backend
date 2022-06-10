@@ -52,7 +52,8 @@ namespace Bilingo.Services
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Age = user.Age
+                Age = user.Age,
+                Gender = user.Gender
             };
         }
         
