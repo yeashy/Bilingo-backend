@@ -15,10 +15,12 @@ namespace Bilingo.Services
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _appEnvironment;
 
-        public UserService(ApplicationDbContext context)
+        public UserService(ApplicationDbContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
         public async Task DeleteUser(string username)
@@ -79,5 +81,6 @@ namespace Bilingo.Services
                 Percentage = percentage
             };
         }
+
     }
 }

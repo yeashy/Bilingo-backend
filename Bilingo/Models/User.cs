@@ -14,6 +14,8 @@
 
         public string Gender { get; set; }
 
+        public string? PathToAvatar { get; set; }
+
         public int Age { get; set; }
 
         public int Role { get; set; } = Convert.ToInt32(Models.Role.User);
