@@ -173,6 +173,7 @@ namespace Bilingo.Services
 
         public async Task<ExerciseDTO> GetRandomExercise(int wordId)
         {
+            return await GenerateTask5(wordId);
             var rand = new Random().Next(4);
             switch (rand)
             {
