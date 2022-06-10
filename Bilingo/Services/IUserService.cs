@@ -9,6 +9,7 @@ namespace Bilingo.Services
         Task DeleteUser(string username);
         Task EditUser(string username, UserEditDTO model);
         Task<StatisticsDTO> GetStatistics(string username);
+        Task<UserGetInfoDTO> GetUserInfo(string username);
     }
 
     public class UserService : IUserService

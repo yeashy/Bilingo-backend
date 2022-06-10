@@ -80,5 +80,27 @@ namespace Bilingo.Controllers
                 return StatusCode(500, response);
             }
         }
+
+        [HttpGet]
+        [Authorize]
+        [Route("getUserInfo")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            string usernameClaim = User.Claims.ToList()[0].ToString();
+            string username = usernameClaim.Substring(usernameClaim.IndexOf(" ") + 1);
+            try
+            {
+                var result = await _userService.GetUserInfo(username);
+                return new JsonResult(result);
+            }
+            catch (Exception ex)
+            {
+                var response = new
+                {
+                    message = ex.InnerException == null ? ex.Message : ex.InnerException.Message
+                };
+                return StatusCode(500, response);
+            }
+        }
     }
 }
