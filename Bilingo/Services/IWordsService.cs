@@ -212,7 +212,9 @@ namespace Bilingo.Services
             {
                 Type = "Type1",
                 Sentence = sentence,
-                SentenceRandomOrder = sentenceArrayRandomOrder
+                SentenceRandomOrder = sentenceArrayRandomOrder,
+                Word = word.Value,
+                WordId = wordId
             };
         }
 
@@ -224,7 +226,9 @@ namespace Bilingo.Services
             return new ExerciseType2DTO
             {
                 Type = "Type2",
-                Sentence = await GetRandomSentence(word)
+                Sentence = await GetRandomSentence(word),
+                Word = word.Value,
+                WordId = wordId
             };
         }
 
@@ -256,7 +260,9 @@ namespace Bilingo.Services
             {
                 Type = "Type3",
                 Meanings = meanings,
-                CorrectAnswer = meanings.IndexOf(correctMeaning)
+                CorrectAnswer = meanings.IndexOf(correctMeaning),
+                Word = word.Value,
+                WordId = wordId
             };
         }
 
@@ -304,7 +310,9 @@ namespace Bilingo.Services
                 Type = "type4",
                 SynOrAnt = sinOrAnt,
                 Options = options,
-                CorrectAnswer = options.IndexOf(correctAnswer)
+                CorrectAnswer = options.IndexOf(correctAnswer),
+                Word = word.Value,
+                WordId = wordId
             };
         }
 

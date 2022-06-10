@@ -3,6 +3,10 @@
     public class ExerciseDTO
     {
         public string Type { get; set; }
+
+        public int WordId { get; set; }
+
+        public string Word { get; set; }
     }
 
     public class ExerciseType1DTO : ExerciseDTO
