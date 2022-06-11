@@ -150,7 +150,6 @@ namespace Bilingo.Controllers
         {
             try
             {
-                // var res = await 
                 return new JsonResult(await _wordsService.GetRandomExercise(wordId));
             }
             catch (Exception ex)
@@ -162,16 +161,5 @@ namespace Bilingo.Controllers
                 return StatusCode(500, response);
             }
         }
-
-        // TODO:
-        // 1. get new word to learn [DONE]
-        // 2. get word to repeat [DONE]
-        // 3. set already known [DONE]
-        // 4. switch to new stage [DONE]
-        // 5. Game1. Get sentence. [DONE]
-        // 6. Game2. Listen to sentence and type it (will be implemented on front). Basycally it's kinda the same method as the previos one [DONE]
-        // 7. Game3. Choose right definition of word (need to provide 4 definitions) [DONE]
-        // 8. Game4. Choose right syn/ant for the word (need to provide 4 aswell) [FAILED]-for some reasons can't get synonims and antonyms from api
-        // 9. Get stat and progress [IN PROGRESS]
     }
 }

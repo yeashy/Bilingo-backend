@@ -195,9 +195,7 @@ namespace Bilingo.Services
 
         private async Task<ExerciseType1DTO> GenerateTask1(int wordId)
         {
-            var word = await _context.Words.FirstOrDefaultAsync(x => x.Id == wordId);
-            if (word == null) throw new Exception("Word does not exist");
-
+            var word = await GetWordById(wordId);
             var sentence = await GetRandomSentence(word);
             var sentenceOnlyWords = sentence.Trim().Replace(".", "").Replace(",", "").Replace("-", "").Replace("?", "").Replace("!", "")
                 .Replace("   ", " ").Replace("  ", " ");
@@ -222,9 +220,7 @@ namespace Bilingo.Services
 
         private async Task<ExerciseType2DTO> GenerateTask2(int wordId)
         {
-            var word = await _context.Words.FirstOrDefaultAsync(x => x.Id == wordId);
-            if (word == null) throw new Exception("Word does not exist");
-
+            var word = await GetWordById(wordId);
             return new ExerciseType2DTO
             {
                 Type = "Type2",
@@ -236,9 +232,7 @@ namespace Bilingo.Services
 
         private async Task<ExerciseType3DTO> GenerateTask3(int wordId)
         {
-            var word = await _context.Words.FirstOrDefaultAsync(x => x.Id == wordId);
-            if (word == null) throw new Exception("Word does not exist");
-
+            var word = await GetWordById(wordId);
             var meanings = new List<string>();
             var rnd = new Random();
 
@@ -270,9 +264,7 @@ namespace Bilingo.Services
 
         private async Task<ExerciseType4DTO?> GenerateTask4(int wordId)
         {
-            var word = await _context.Words.FirstOrDefaultAsync(x => x.Id == wordId);
-            if (word == null) throw new Exception("Word does not exist");
-
+            var word = await GetWordById(wordId);
             var info = await GetInfoFromDictionaryAPI(word);
             if (info == null) return null;
 
@@ -320,9 +312,7 @@ namespace Bilingo.Services
 
         private async Task<ExerciseType5DTO> GenerateTask5(int wordId)
         {
-            var word = await _context.Words.FirstOrDefaultAsync(x => x.Id == wordId);
-            if (word == null) throw new Exception("Word does not exist");
-
+            var word = await GetWordById(wordId);
             var phonetics = new List<string>();
             var rnd = new Random();
 
@@ -388,6 +378,13 @@ namespace Bilingo.Services
                 WriteIndented = true,
                 IncludeFields = true,
             })?[0];
+            return word;
+        }
+
+        private async Task<Word> GetWordById(int wordId)
+        {
+            var word = await _context.Words.FirstOrDefaultAsync(x => x.Id == wordId);
+            if (word == null) throw new Exception("Word does not exist");
             return word;
         }
     }
